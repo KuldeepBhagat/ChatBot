@@ -1,0 +1,39 @@
+body {
+    margin: 0;
+}
+.chatbot_container {
+    display: flex;
+}
+
+/* Sidebar */
+
+.sidebar {
+    background-color: rgb(128, 106, 106);
+    height: 100vh;
+    width: 220px;
+    z-index: 2;
+    position: absolute;
+    left: -180px;
+}
+.sidebar.open {
+    left: 0px;
+    transition: 0.5s ease;
+}
+.sidebar_header_section_1 {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 10px;
+    justify-content: space-between;
+}
+@media (max-width: 500px) {
+    .sidebar {
+        margin-left: -220px;
+    }
+}
+.main_content {
+    background-color: brown;
+    height: 100vh;
+    width: 100vw;
+    margin-left: 40px;
+}
