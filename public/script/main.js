@@ -23,4 +23,5 @@ function Sidebar_functions() {
     }
 }
 sidebar_button.addEventListener('click', () => Sidebar_functions());
+sidebar_button_mobile.addEventListener('click', () => Sidebar_functions())
 overaly.addEventListener('click', () => Sidebar_functions());
