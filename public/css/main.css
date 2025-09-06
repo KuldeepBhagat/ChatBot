@@ -75,6 +75,8 @@ body {
 }
 
 .main_content {
+    display: flex;
+    flex-direction: column;
     background-color: brown;
     height: 100vh;
     width: 100vw;
@@ -98,9 +100,6 @@ body {
 }
 
 
-
-
-
 @media (max-width: 500px) {
     .main_content {
         margin-left: 0px;
@@ -111,4 +110,59 @@ body {
     .main_content.sidebar_active {
     margin-left: 0px;
     }
+}
+
+.chat_container {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+.chat_box {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-size: 20px;
+    background: yellow;
+    width: 800px;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.message.user {
+    background: palevioletred;
+    display: flex;
+    justify-content: end;
+    padding: 0px 10px;
+    width: 500px;
+    align-self: flex-end;
+
+}
+.message.bot {
+    background: wheat;
+    padding: 0px 10px;
+}
+
+.message_input {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+
+}
+#UserInput {
+    max-height: 150px;
+    min-height: 40px;
+    width: 770px;
+    resize: none;
+    overflow: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+#SendButton {
+    display: flex;
+    cursor: pointer;
+}
+#SendButton img {
+    width: 30px;
+    border: none;
+    background: red;
 }
