@@ -7,6 +7,7 @@ const sidebar_button_rotate = Array.from(document.querySelectorAll('.sidebar_ope
 //User Input functions
 const user_input = document.getElementById('UserInput')
 const send_button = document.getElementById('SendButton')
+const  ChatBox = document.getElementById('ChatBox')
 
 function Sidebar_functions() {
     if(sidebar.classList.contains('open')) 
@@ -41,14 +42,28 @@ user_input.addEventListener('input', () => {
 })
 
 
-function GetData(message) {
-    fetch(`http://localhost:3000/test?q=${message}`)
-    .then(res => res.json())
-    .then(reply => console.log(reply))
+async function GetData(message) {
+    const res = await fetch(`http://localhost:3000/test?q=${message}`)
+    const reply = await res.json()
+    return reply
 }
 
-send_button.addEventListener('click', () => {
+async function MessageHandle() {
+    const UserMessage = document.createElement('div')
+    const BotMessage = document.createElement('div')
+
+    UserMessage.classList.add('message', 'user')
     const message = user_input.value;
-    GetData(message)
+    UserMessage.innerHTML = `${message}`
+    ChatBox.appendChild(UserMessage)
     user_input.value = " ";
+    
+    BotMessage.classList.add('message', 'bot')
+    const bot_message = await GetData(message)
+    BotMessage.innerHTML = `${bot_message.message}`
+    ChatBox.appendChild(BotMessage)
+    
+}
+send_button.addEventListener('click', () => {
+    MessageHandle()
 })
