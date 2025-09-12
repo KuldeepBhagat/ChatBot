@@ -31,17 +31,13 @@ function Sidebar_functions() {
         })
     }
 }
+
 document.querySelectorAll('.sidebar_button').forEach( btn => {
     btn.addEventListener('click', () => Sidebar_functions());
 })
 overaly.addEventListener('click', () => Sidebar_functions());
 
-user_input.addEventListener('input', () => {
-    user_input.style.height = "auto";
-    user_input.style.height = user_input.scrollHeight + "px";
-})
-
-
+// ChatBot functions
 async function GetData(message) {
     const res = await fetch(`http://localhost:3000/test?q=${message}`)
     const reply = await res.json()
@@ -52,9 +48,9 @@ async function MessageHandle() {
     const UserMessage = document.createElement('div')
     const BotMessage = document.createElement('div')
 
-    UserMessage.classList.add('message', 'user')
     const message = user_input.value;
-    UserMessage.innerHTML = `${message}`
+    UserMessage.classList.add('message', 'user')
+    UserMessage.textContent = message
     ChatBox.appendChild(UserMessage)
     user_input.value = " ";
     
@@ -64,6 +60,26 @@ async function MessageHandle() {
     ChatBox.appendChild(BotMessage)
     
 }
+
+// Input Functions
+
+function InputHandler() {
+    if(user_input.value.trim() === "") {
+        user_input.style.height = "auto"
+    } else {
+        user_input.style.height = "auto";
+        user_input.style.height = user_input.scrollHeight + "px";
+    }
+}
 send_button.addEventListener('click', () => {
+
+    if(user_input.value.trim() === "") return;
+
     MessageHandle()
+    InputHandler()
 })
+user_input.addEventListener('input', () => {
+    InputHandler()
+})
+
+
