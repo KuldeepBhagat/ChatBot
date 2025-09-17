@@ -38,13 +38,53 @@ document.querySelectorAll('.sidebar_button').forEach( btn => {
 overaly.addEventListener('click', () => Sidebar_functions());
 
 // ChatBot functions
+
+function escapeHTML(str) {
+    return str
+           .replace(/&/g, "&amp;")
+           .replace(/</g, "&lt;")
+           .replace(/>/g, "&gt;")
+           .replace(/"/g, "&quot;")
+           .replace(/'/g, "&#39;")
+}
+
+function Parse(rawText) {
+    const codeBlock = []
+    let codeData = rawText.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
+        codeBlock.push({lang, code})
+        return `_CODEBLOCK_${codeBlock.length -1}_`;
+    })
+
+    codeData  = codeData.replace(/^(#{1,6})\s+(.*)$/gm, (match, hashes, text) => {
+        return `<h${hashes.length} class="BotResponse Header">${text}</h${hashes.length}>`
+    })
+
+    codeData = codeData.replace(/\*\*(.*?)\*\*/g, `<strong class="BotResponse Header2">$1</strong>`)
+                       .replace(/\*(.*?)\*/g, `<em class="BotResponse Header3">$1</em>`) 
+
+
+    codeData = codeData.replace(/(?:^|\n)- (.*)/g, (_, item) => {
+        return `<li class="BotResponse List">${item}</li>`;
+    });
+    
+    const result = codeData.replace(/_CODEBLOCK_(\d+)_/g, (_, i) => {
+        const {lang, code } = codeBlock[i]
+        return `<pre class="BotResponse Code"><code class="lang-${lang || 'plain'}">${escapeHTML(code)}</code></pre>`
+
+    })
+
+
+  console.log(result)
+  return result;
+}
+
 async function GetData(message) {
     const res = await fetch(`http://localhost:3000/test?q=${message}`)
     const reply = await res.json()
     return reply
 }
 
-async function MessageHandle() {
+async function MessageHandler() {
     const UserMessage = document.createElement('div')
     const BotMessage = document.createElement('div')
 
@@ -56,7 +96,8 @@ async function MessageHandle() {
     
     BotMessage.classList.add('message', 'bot')
     const bot_message = await GetData(message)
-    BotMessage.innerHTML = `${bot_message.message}`
+    const ParsedData = Parse(bot_message.message)
+    BotMessage.innerHTML = `${ParsedData}`
     ChatBox.appendChild(BotMessage)
     
 }
@@ -71,15 +112,23 @@ function InputHandler() {
         user_input.style.height = user_input.scrollHeight + "px";
     }
 }
+
 send_button.addEventListener('click', () => {
 
     if(user_input.value.trim() === "") return;
 
-    MessageHandle()
+    MessageHandler()
     InputHandler()
 })
 user_input.addEventListener('input', () => {
     InputHandler()
+})
+user_input.addEventListener('keydown', function(event) {
+    if(event.key == "Enter" && !event.shiftKey) {
+        event.preventDefault()
+        MessageHandler()
+        InputHandler()   
+    }
 })
 
 

@@ -76,16 +76,16 @@ body {
 
 /* Main Content */
 .main_content {
-    background: rgb(126, 120, 120);
+    background: rgb(193, 246, 243);
     display: flex;
     flex-direction: column;
     height: 100vh;
     width: 100vw;
-    margin-left: 40px;
-    transition: margin-left 0.5s ease;
+    padding-left: 40px;
+    transition: padding-left 0.5s ease;
 }
 .main_content.sidebar_active {
-    margin-left: 220px;
+    padding-left: 220px;
 }
 
 .main_content_header {
@@ -103,13 +103,13 @@ body {
 
 @media (max-width: 500px) {
     .main_content {
-        margin-left: 0px;
+        padding-left: 0px;
     }
     .sidebar_button.m {
         display: block;
     }
     .main_content.sidebar_active {
-    margin-left: 0px;
+    padding-left: 0px;
     }
 }
 
@@ -139,7 +139,7 @@ body {
     margin: 5px;
 }
 .chat_box::-webkit-scrollbar-thumb {
-    background: rgb(103, 106, 103);
+    background: rgba(98, 98, 98, 0.303);
     border-radius: 20px;
 }
 
@@ -149,17 +149,38 @@ body {
     font-size: 17px;
     border-radius: 12px;
     padding: 12px;
+    margin: 5px;
+    box-shadow: 1px 5px 10px 0px rgb(106, 112, 106);
+    white-space: pre-wrap;
+    word-break: break-all;
 }
 .message.user {
-    background: rgb(176, 239, 231);
+    background: rgb(10, 238, 207);
     display: inline-block;
     justify-content: end;
     width: 65%;
     align-self: flex-end;
-    word-break: break-all;
 }
 .message.bot {
-    background: rgb(64, 160, 107);
+    background: rgb(236, 208, 158);
+}
+
+.BotResponse.Code {
+    background: rgb(35, 36, 36);
+    color: white;
+    overflow-y: auto;
+}
+@media (max-width: 500px) {
+    .BotResponse.Code {
+        font-size: 12px;
+    }
+}
+.BotResponse.Header {
+    font-size: 20px;
+}
+
+.BotResponse.List {
+    margin-left: 20px;
 }
 
 /* Input Section */
@@ -183,6 +204,9 @@ body {
     margin-left: 30px;
     padding: 20px;
 }
+#UserInput:focus {
+    outline: none;
+}
 #UserInput::-webkit-scrollbar {
     width: 0;
 }
@@ -197,16 +221,4 @@ body {
 #SendButton img {
     width: 30px;
     border: none;
-}
-
-.message.user .bubble {
-  background: rgb(176, 239, 231);
-  padding: 8px 12px;
-  border-radius: 12px;
-  display: inline-block;        /* shrink to content, but obey max-width */
-  max-width: 75%;               /* don't exceed 75% of the chat width */
-  white-space: pre-wrap;        /* keep newlines from textarea */
-  overflow-wrap: anywhere;      /* break very long words/URLs if needed */
-  word-break: break-word;       /* fallback */
-  box-sizing: border-box;
 }
