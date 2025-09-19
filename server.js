@@ -2,17 +2,23 @@ import OpenAI from "openai"
 import "dotenv/config"
 import express from "express"
 import cors from 'cors'
+import path from "path"
 
+const _dirname = path.resolve(); 
 const app = express()
-const port = 3000
 app.use(cors())
+app.use(express.static(path.join(_dirname, "public")))
+
 
 const client  = new OpenAI({
     apiKey: process.env.CHATBOT_KEY,
     baseURL: "https://openrouter.ai/api/v1",    
 })
 
-app.get('/test', async (req, res) => {
+app.get('/', (req, res) => {
+    res.sendFile(path.join(_dirname, "public", "index.html"))
+})
+app.get('/ChatBotCall', async (req, res) => {
     const query = req.query.q || null
     
     const response = await client.chat.completions.create({
@@ -29,6 +35,7 @@ app.get('/test', async (req, res) => {
     console.log(response.choices[0])
 })
 
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log("connected to port:", port)
 })

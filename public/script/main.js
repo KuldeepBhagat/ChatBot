@@ -78,7 +78,7 @@ function Parse(rawText) {
 }
 
 async function GetData(message) {
-    const res = await fetch(`http://localhost:3000/test?q=${message}`)
+    const res = await fetch(`http://localhost:3000/ChatBotCall?q=${message}`)
     const reply = await res.json()
     return reply
 }
