@@ -78,7 +78,11 @@ function Parse(rawText) {
 }
 
 async function GetData(message) {
-    const res = await fetch(`http://localhost:3000/ChatBotCall?q=${message}`)
+    const APT_URL = window.location.hostname = "localhost"
+          ? `http://localhost:3000/ChatBotCall?q=${message}`
+          : `https://chatbot-xmr2.onrender.com/ChatBotCall?q=${message}`
+
+    const res = await fetch(APT_URL)
     const reply = await res.json()
     return reply
 }
