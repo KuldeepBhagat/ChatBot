@@ -1,4 +1,5 @@
 // Sidebabr functions
+
 const sidebar = document.getElementById('Sidebar');
 const overaly = document.getElementById('Overlay');
 const main_contet = document.getElementById('Main_content');
@@ -73,8 +74,6 @@ function Parse(rawText) {
 
     })
 
-
-  console.log(result)
   return result;
 }
 
@@ -98,7 +97,9 @@ async function MessageHandler() {
     const bot_message = await GetData(message)
     const ParsedData = Parse(bot_message.message)
     BotMessage.innerHTML = `${ParsedData}`
+    console.log(BotMessage)
     ChatBox.appendChild(BotMessage)
+    hljs.highlightAll();
     
 }
 

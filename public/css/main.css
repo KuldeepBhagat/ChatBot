@@ -164,11 +164,18 @@ body {
 .message.bot {
     background: rgb(236, 208, 158);
 }
-
 .BotResponse.Code {
     background: rgb(35, 36, 36);
     color: white;
     overflow-y: auto;
+    padding: 10px;
+}
+code::-webkit-scrollbar {
+    height: 10px;
+}
+code::-webkit-scrollbar-thumb {
+    background-color: rgba(91, 91, 92, 0.662);
+    border-radius: 10px;
 }
 @media (max-width: 500px) {
     .BotResponse.Code {
