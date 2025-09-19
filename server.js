@@ -18,7 +18,7 @@ const client  = new OpenAI({
 app.get('/', (req, res) => {
     res.sendFile(path.join(_dirname, "public", "index.html"))
 })
-app.get('/ChatBotCall', async (req, res) => {
+app.get('/test', async (req, res) => {
     const query = req.query.q || null
     
     const response = await client.chat.completions.create({

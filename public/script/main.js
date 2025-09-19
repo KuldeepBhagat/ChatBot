@@ -78,11 +78,16 @@ function Parse(rawText) {
 }
 
 async function GetData(message) {
-    const APT_URL = window.location.hostname = "localhost"
-          ? `http://localhost:3000/ChatBotCall?q=${message}`
-          : `https://chatbot-xmr2.onrender.com/ChatBotCall?q=${message}`
-
-    const res = await fetch(APT_URL)
+    const API_URL = window.location.hostname === "127.0.0.1" 
+                    ? "http://localhost:3000"
+                    : "https://chatbot-xmr2.onrender.com"
+                
+    if(window.location.hostname === "127.0.0.1") {
+        console.log("localhost")
+    } else {
+        console.log("server")
+    }
+    const res = await fetch(`${API_URL}/test?q=${message}`)
     const reply = await res.json()
     return reply
 }
