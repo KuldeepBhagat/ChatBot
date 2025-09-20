@@ -140,3 +140,11 @@ user_input.addEventListener('keydown', function(event) {
         InputHandler()   
     }
 })
+
+function updateVh() {
+  const vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+updateVh();
+window.addEventListener('resize', updateVh);
+window.addEventListener('orientationchange', updateVh);
