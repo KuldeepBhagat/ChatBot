@@ -21,7 +21,7 @@ body, html {
     background: rgba(0, 0, 0, 0.408);
     z-index: 1;
     width: 100vw;
-    height: 100vh;
+    height: 100dvh;
     display: none;
 }
 .overlay.active {
@@ -30,7 +30,7 @@ body, html {
 
 .sidebar {
     background: rgb(80, 80, 80);
-    height: 100vh;
+    height: 100dvh;
     width: 220px;
     z-index: 2;
     position: absolute;
@@ -83,7 +83,7 @@ body, html {
     background: rgb(193, 246, 243);
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 100dvh;
     width: 100vw;
     padding-left: 40px;
     transition: padding-left 0.5s ease;
