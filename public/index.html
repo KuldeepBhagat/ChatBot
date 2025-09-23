@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0 ,viewport-fit=cover">
     <title>ChatBot</title>
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
 </head>
+
 <body>
     <div class="chatbot_container">
-       
-        <div class="overlay", id="Overlay"></div>
-       
+
+        <div class="overlay" , id="Overlay"></div>
+
         <!-- Sidebar -->
         <div class="sidebar" id="Sidebar">
             <div class="sidebar_header">
@@ -23,39 +26,43 @@
                     <div class="sidebar_open_button">
                         <button class="sidebar_button">
                             <img class="sidebar_open_btn_img"
-                            src="https://img.icons8.com/?size=100&id=7Mglcd3Y6KLr&format=png&color=000000" 
-                            alt="sidebar_open_button">
+                                src="https://img.icons8.com/?size=100&id=7Mglcd3Y6KLr&format=png&color=000000"
+                                alt="sidebar_open_button">
                         </button>
                     </div>
                 </div>
-                
+
             </div>
         </div>
         <!-- Main Contetn -->
         <div class="main_content" id="Main_content">
             <div class="main_content_header">
-                <div class="main_content_header section1">
+                <div class="main_content_header_section1">
                     <button class="sidebar_button m">
                         <img class="sidebar_open_btn_img"
-                             src="https://img.icons8.com/?size=100&id=7Mglcd3Y6KLr&format=png&color=000000"
-                             alt="sidebar_open_button">
+                            src="https://img.icons8.com/?size=100&id=7Mglcd3Y6KLr&format=png&color=000000"
+                            alt="sidebar_open_button">
                     </button>
                     <h3>ChatBot</h3>
                 </div>
-                
+
+
+
             </div>
-            
+
             <div class="chat_container">
                 <div class="chat_box" id="ChatBox">
                 </div>
             </div>
 
             <div class="message_input">
-                <textarea type="text" placeholder="Enter your query here" id="UserInput"> </textarea> 
-                <button id="SendButton"><img 
-                    src="https://img.icons8.com/?size=100&id=RHtRRB1E4DKI&format=png&color=000000" 
-                    alt="Send icon">
-                </button>
+                <div class="input_wrapper">
+                    <textarea type="text" placeholder="Enter your query here" id="UserInput"> </textarea>
+                    <button id="SendButton"><img
+                            src="https://img.icons8.com/?size=100&id=RHtRRB1E4DKI&format=png&color=000000"
+                            alt="Send icon">
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -63,4 +70,5 @@
 
 
 </body>
+
 </html>
