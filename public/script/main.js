@@ -8,8 +8,13 @@ const sidebar_button_rotate = Array.from(document.querySelectorAll('.sidebar_ope
 //User Input functions
 const user_input = document.getElementById('UserInput')
 const send_button = document.getElementById('SendButton')
-const  ChatBox = document.getElementById('ChatBox')
+const ChatBox = document.getElementById('ChatBox')
 
+//User Options
+const user_button = document.getElementById('User')
+const user_box = document.getElementById('User_options')
+
+// Sidebar_functions
 function Sidebar_functions() {
     if(sidebar.classList.contains('open')) 
     {
@@ -140,12 +145,25 @@ user_input.addEventListener('keydown', function(event) {
         InputHandler()   
     }
 })
-/*
-function updateVh() {
-  const vh = window.innerHeight * 0.01;
-  document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+// User functions
+
+function user_options_box() { 
+    if(user_box.classList.contains('active')) {
+        user_box.classList.remove('active')
+    } else {
+        user_box.classList.add('active')
+    }
 }
-updateVh();
-window.addEventListener('resize', updateVh);
-window.addEventListener('orientationchange', updateVh);
-*/
+user_button.addEventListener('click', (e) => {
+    e.stopPropagation()
+    user_options_box()
+})
+
+document.addEventListener('click', (event) => {
+    if(!user_box.contains(event.target)) {
+        user_box.classList.remove('active')
+    }
+})
+
+

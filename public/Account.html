@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 ,viewport-fit=cover">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/account.css">
+</head>
+
+<body class="account_page">
+    <div class="account_box">
+        <img src="assets/background.jpg" alt="background" class="background_image">
+        <div class="account_box_header">
+            <div class="account_box_header container">
+                <div class="account_box_header background">
+                    <button type="button" class="login_option_button" id="Login_option_button">Login</button>
+                    <button type="button" class="create_acc_option_button" id="Create_acc_option_button">Create
+                        Account</button>
+                </div>
+                <div class="option_slider">
+                    <div class="slider_block" id="Slider_block"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="account_details">
+            <form method="POST" class="signin_form" id="SignIn_form">
+                <h2>Sign In</h2>
+                <input type="email" name="userEmail">
+                <input type="password" name="userPassword">
+                <button type="submit">Submit</button>
+            </form>
+            <form class="signup_form" id="SignUp_form">
+                <h2>Sign Up</h2>
+                <div class="signin_name">
+                    <input type="text">
+                    <input type="text">
+                </div>
+                <input type="email" name="userEmail">
+                <input type="password" name="userPassword">
+                <button>Create Account</button>
+            </form>
+        </div>
+
+        <script src="script/account.js"></script>
+    </div>
+</body>
+
+</html>

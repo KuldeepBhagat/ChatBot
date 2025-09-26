@@ -6,8 +6,11 @@ import path from "path"
 
 const _dirname = path.resolve(); 
 const app = express()
+
 app.use(cors())
 app.use(express.static(path.join(_dirname, "public")))
+app.use(express.urlencoded({extended: true}))
+app.use(express.json())
 
 
 const client  = new OpenAI({
@@ -33,6 +36,12 @@ app.get('/test', async (req, res) => {
 
     res.json({message: `${response.choices[0].message.content}`})
     console.log(response.choices[0])
+})
+
+app.post('/SignIn', (req, res) => {
+    const data = req.body
+    console.log(data)
+    res.redirect('/index.html')
 })
 
 const port = process.env.PORT || 3000;
