@@ -169,7 +169,7 @@ document.addEventListener('click', (event) => {
 const baseURL = window.location.origin;
 
 signIn.addEventListener('click', () => {
-    window.location.href = `${baseURL}/ChatBot/public/Account.html?mode=signin`;
+    window.location.href = `${baseURL}/Account.html?mode=signin`;
 })
 
 
