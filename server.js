@@ -21,7 +21,7 @@ const client  = new OpenAI({
 app.get('/', (req, res) => {
     res.sendFile(path.join(_dirname, "public", "index.html"))
 })
-app.get('/test', async (req, res) => {
+app.get('/BotResponse', async (req, res) => {
     const query = req.query.q || null
     
     const response = await client.chat.completions.create({
@@ -41,9 +41,12 @@ app.get('/test', async (req, res) => {
 app.post('/SignIn', (req, res) => {
     const data = req.body
     console.log(data)
-    res.redirect('/index.html')
+    res.redirect('/Account.html')
 })
-
+app.post('/SignUp', (req, res) => {
+    console.log(req.body)
+    res.redirect('/Account.html')
+})
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log("connected to port:", port)

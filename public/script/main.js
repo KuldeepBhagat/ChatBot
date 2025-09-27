@@ -10,10 +10,6 @@ const user_input = document.getElementById('UserInput')
 const send_button = document.getElementById('SendButton')
 const ChatBox = document.getElementById('ChatBox')
 
-//User Options
-const user_button = document.getElementById('User')
-const user_box = document.getElementById('User_options')
-
 // Sidebar_functions
 function Sidebar_functions() {
     if(sidebar.classList.contains('open')) 
@@ -92,7 +88,7 @@ async function GetData(message) {
     } else {
         console.log("server")
     }
-    const res = await fetch(`${API_URL}/test?q=${message}`)
+    const res = await fetch(`${API_URL}/BotResponse?q=${message}`)
     const reply = await res.json()
     return reply
 }
@@ -146,8 +142,13 @@ user_input.addEventListener('keydown', function(event) {
     }
 })
 
-// User functions
+//User Options
+const user_button = document.getElementById('User')
+const user_box = document.getElementById('User_options')
+const signIn = document.getElementById('SignIn_button')
+const signUp = document.getElementById('SignUp_button')
 
+// User functions
 function user_options_box() { 
     if(user_box.classList.contains('active')) {
         user_box.classList.remove('active')
@@ -164,6 +165,11 @@ document.addEventListener('click', (event) => {
     if(!user_box.contains(event.target)) {
         user_box.classList.remove('active')
     }
+})
+const baseURL = window.location.origin;
+
+signIn.addEventListener('click', () => {
+    window.location.href = `${baseURL}/ChatBot/public/Account.html?mode=signin`;
 })
 
 

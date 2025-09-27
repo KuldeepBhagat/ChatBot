@@ -27,19 +27,38 @@
         <div class="account_details">
             <form method="POST" class="signin_form" id="SignIn_form">
                 <h2>Sign In</h2>
-                <input type="email" name="userEmail">
-                <input type="password" name="userPassword">
+                <label>
+                    Email
+                    <input type="email" name="userEmail">
+                </label>
+                <label >
+                    Password
+                    <input type="password" name="userPassword">
+                </label>
+                
                 <button type="submit">Submit</button>
             </form>
-            <form class="signup_form" id="SignUp_form">
+            <form method="POST" class="signup_form" id="SignUp_form">
                 <h2>Sign Up</h2>
-                <div class="signin_name">
-                    <input type="text">
-                    <input type="text">
+                <div class="signup_name">
+                    <label>
+                        First Name
+                        <input type="text" name="FirstName">
+                    </label>
+                    <label>
+                        Last Name                     
+                        <input type="text" name="LastName">
+                    </label>
                 </div>
-                <input type="email" name="userEmail">
-                <input type="password" name="userPassword">
-                <button>Create Account</button>
+                <label>
+                    Email
+                    <input type="email" name="userEmail">
+                </label>
+                <label>
+                    Password
+                    <input type="password" name="userPassword">
+                </label>
+                <button>Submit</button>
             </form>
         </div>
 
