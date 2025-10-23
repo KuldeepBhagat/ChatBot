@@ -1,29 +1,43 @@
-const login_option_button = document.getElementById('Login_option_button')
-const create_acc_option_button = document.getElementById('Create_acc_option_button')
-const slider_block = document.getElementById('Slider_block')
-const login_form = document.getElementById('SignIn_form')
-const account_form = document.getElementById('SignUp_form')
 
-create_acc_option_button.addEventListener('click', () => {
-    slider_block.style.transform = "translateX(100px)"
-    slider_block.style.width = "140px"
-    
-    login_form.style.display = "none"
-    account_form.style.display = "flex"
-})
-login_option_button.addEventListener('click', () => {
+
+const SignIn_option = document.getElementById('SignIn_option')
+const SignUp_option = document.getElementById('SignUp_option')
+const slider_block = document.getElementById('Slider_block')
+const signIn = document.getElementById('SignIn_form')
+const signUp = document.getElementById('SignUp_form')
+
+const params = new URLSearchParams(location.search)
+const mode = params.get('mode')
+
+if (mode == 'signin') {
+    signIn.style.display = "flex"
+}
+else if (mode == 'signup') {
+    signUp.style.display = "flex"
+    slider_block.style.transform = "translateX(80px)"
+    slider_block.style.width = "150px"
+
+}
+
+SignIn_option.addEventListener('click', () => {
     slider_block.style.transform = "translateX(0px)"
     slider_block.style.width = "60px"
 
-    login_form.style.display = "flex"
-    account_form.style.display = "none"
+    signIn.style.display = "flex"
+    signUp.style.display = "none"
+})
+SignUp_option.addEventListener('click', () => {
+    slider_block.style.transform = "translateX(80px)"
+    slider_block.style.width = "150px"
+    
+    signIn.style.display = "none"
+    signUp.style.display = "flex"
 })
 
+
 function FormRouteHandle() {
-    const API_URL = window.location.hostname === "127.0.0.1" 
-                    ? "http://localhost:3000"
-                    : "https://chatbot-xmr2.onrender.com"
-    login_form.action = API_URL + "/SignIn"
-    account_form.action = API_URL + "/SignUp"
+    const API_URL = window.location.origin
+    signIn.action = API_URL + "/SignIn"
+    signUp.action = API_URL + "/SignUp"
 }
 FormRouteHandle()

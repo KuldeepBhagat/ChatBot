@@ -79,15 +79,9 @@ function Parse(rawText) {
 }
 
 async function GetData(message) {
-    const API_URL = window.location.hostname === "127.0.0.1" 
-                    ? "http://localhost:3000"
-                    : "https://chatbot-xmr2.onrender.com"
-                
-    if(window.location.hostname === "127.0.0.1") {
-        console.log("localhost")
-    } else {
-        console.log("server")
-    }
+    const API_URL = window.location.origin
+    console.log(API_URL)
+            
     const res = await fetch(`${API_URL}/BotResponse?q=${message}`)
     const reply = await res.json()
     return reply
@@ -166,10 +160,13 @@ document.addEventListener('click', (event) => {
         user_box.classList.remove('active')
     }
 })
-const baseURL = window.location.origin;
 
+const baseURL = window.location.origin;
 signIn.addEventListener('click', () => {
     window.location.href = `${baseURL}/Account.html?mode=signin`;
+})
+signUp.addEventListener('click', () => {
+    window.location.href = `${baseURL}/Account.html?mode=signup`;
 })
 
 
