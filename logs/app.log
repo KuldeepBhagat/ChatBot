@@ -1,0 +1,11 @@
+{"timeStamp":"2025-11-01T09:51:11.602Z","type":"error","message":"bot response: failed","source":"backend"}
+{"timeStamp":"2025-11-01T09:52:50.569Z","type":"error","message":"failed to get bot response","error":{"message":"Failed to execute 'json' on 'Response': Unexpected end of JSON input"},"at":"line:209","source":"main.js"}
+{"timeStamp":"2025-11-01T09:53:35.489Z","type":"error","message":"bot response: failed","source":"backend"}
+{"timeStamp":"2025-11-01T09:55:13.465Z","type":"error","message":"failed to get bot response","error":{"message":"Failed to execute 'json' on 'Response': Unexpected end of JSON input"},"at":"line:209","source":"main.js"}
+{"timeStamp":"2025-11-01T09:58:49.985Z","type":"error","message":"failed to create chat summary","error":{},"at":"line:82","source":"main.js"}
+{"timeStamp":"2025-11-01T09:59:46.090Z","type":"error","message":"failed to create chat summary","error":{},"at":"line:82","source":"main.js"}
+{"timeStamp":"2025-11-01T10:02:49.453Z","type":"error","message":"failed to create chat summary","error":{},"at":"line:82","source":"main.js"}
+{"timeStamp":"2025-11-01T10:09:26.978Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-01T10:09:27.036Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-01T10:09:47.965Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-01T10:09:47.966Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}

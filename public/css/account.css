@@ -19,11 +19,29 @@ body.account_page {
     filter: brightness(0.6) blur(1px);
 }
 .account_box {
+    position: relative;
     display: flex;
     flex-direction: column;
     width: 500px;
     height: 700px;
     background-color: rgb(197, 197, 197);border-radius: 15px;
+}
+.notification {
+    display: flex;
+    justify-content: center;
+    font-family:'Lucida Sans';
+    right: 50%;
+    top: 150px;
+    transform: translate(50%, 50%);
+    width: 400px;
+    height: 20px;
+    color: rgba(206, 29, 29, 0.896);
+    transition: 0.5s ease;
+    z-index: 0;
+    position: absolute;
+}
+.notification.active {
+    z-index: 1;
 }
 .account_box_header {
     z-index: 1;

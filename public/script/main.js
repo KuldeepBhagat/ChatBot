@@ -40,6 +40,7 @@ document.querySelectorAll('.sidebar_button').forEach( btn => {
 overaly.addEventListener('click', () => Sidebar_functions());
 
 // ChatBot functions
+const API_URL = window.location.origin
 
 function escapeHTML(str) {
     return str
@@ -71,20 +72,196 @@ function Parse(rawText) {
     
     const result = codeData.replace(/_CODEBLOCK_(\d+)_/g, (_, i) => {
         const {lang, code } = codeBlock[i]
-        return `<pre class="BotResponse Code"><code class="lang-${lang || 'plain'}">${escapeHTML(code)}</code></pre>`
+        return `<pre class="BotResponse Code"><code class="lang-${lang || 'plaintext'}">${escapeHTML(code)}</code></pre>`
 
     })
 
   return result;
 }
 
-async function GetData(message) {
-    const API_URL = window.location.origin
-    console.log(API_URL)
+async function makeSummary(chat) {
+    try {
+        const res = await fetch(`${API_URL}/BotResponse`, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify({
+                message: [
+                    {
+                        role: "system",
+                        content: "You are a system that summarizes conversation history. Return a short summary only."
+                    },
+                    ...chat,
+                    {
+                        role: "user",
+                        content: "Summarize this conversation."
+                    }
+                ]
+            })
+        })
+
+        const data = await res.json()
+        return data
+    } catch (err) {
+        logEvent("error", "failed to create chat summary", {error: err, at: "line:82" })
+    }
+}
+
+function ChatData_Save(message, role) {  
+    try {
+        const token =  localStorage.getItem('userToken');
+        if(!token) {
+            logEvent("error", "token doesn't exists", {at: "line:85"});
+            return;
+        }
+        
+        fetch(`${API_URL}/auth/StoreChat`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                message: [{
+                      sender: role,
+                      text: message,
+                      Timestamp: Date.now()
+            }]
+        })
+        }).then(res => {
+            const data = res.json()
+            return {res, data}
+        }        
+        ).then(Data => {
+            const data = Data.data
+            const res = Data.res
+
+            if(!res.ok) {
+                logEvent("error", data.error, {route: data.route})
+            }
+        })
+
+    } catch (err) {
+        logEvent("error", "failed to store chatData", {error: err, at: "line:84"})
+    }
+    
+}
+async function memoryData_save(message, role) {
+    const token = localStorage.getItem('userToken');
+    await fetch('mem/memorySave', {
+        method: "POST",
+        headers: {
+            "content-type": "application/json",
+            "authorization": `bearer ${token}` 
+        },
+        body: JSON.stringify({
+            message: [{
+                sender: role,
+                text: message
+            }]
+        })
+    })
+}
+
+async function summarySave(message) {
+    const token = localStorage.getItem('userToken');
+    await fetch('')
+}
+
+async function ChatData_fetch() {
+    try {
+        const token =  localStorage.getItem('userToken');
+        if(!token) {
+            return {status: "none"};
+        }
+    
+        const res = await fetch(`${API_URL}/auth/FetchChat`, {
+            method: "POST",
+            headers: {
+            "content-type": "application/json",
+            "authorization": `Bearer ${token}`
+            },})
+
+        const data = await res.json()
+
+        if(res.status == 401 || res.status == 403) {
+            localStorage.removeItem('userToken')
+            return {status: false}
+        } else if(!res.ok) {
+            logEvent("error", data.error, {route: data.route})
+            return 0
+        }
+        return {status: true, data: data.chat}
+
+    } catch (err) {
+        logEvent("error", "failed to fetch chatData", {error: err, at: "line:141"})
+    }
+}
+
+async function memoryFetch() {
+    try {
+        const token = localStorage.getItem('userToken')
+        const res = await fetch('/mem/memoryFetch', {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+                "authorization": `Bearer ${token}`
+            }})
+
+        const data = await res.json()
+        if(!res.ok) {
+            logEvent("error", data.error, {event: data.event})
+        }
+        const chat = data.chat
+        
+        const format = chat.map(m => ({
+            role: m.sender === "bot" ? "assistant" : "user",
+            content: m.text
+        }))
+        
+        if(chat.length > 10) {
+            const summary = await makeSummary(format)
+            const lastMessage = chat.at(-1)
             
-    const res = await fetch(`${API_URL}/BotResponse?q=${message}`)
-    const reply = await res.json()
-    return reply
+            if(!summary) {
+                throw new Error("summary is empty")
+            }
+
+            const message = [
+                { role: "system",
+                  content: `memory summary: ${summary.message}`
+                },
+                {
+                  role: "user",
+                  content: lastMessage.content
+                }
+            ]
+
+            return message
+        }
+
+        return format
+        } catch (err) {
+        logEvent("error", "failed to fetch memory", {error: err, at: "line:170"})
+    }
+}
+
+async function GetData() {
+    try {
+        const message = await memoryFetch()
+        const res = await fetch(`${API_URL}/BotResponse`, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify({message})
+        })
+        const reply = await res.json()
+        return reply
+    } catch (err) {
+        logEvent("error", "failed to get bot response", {error: err, at: "line:209"})
+    }
 }
 
 async function MessageHandler() {
@@ -92,6 +269,10 @@ async function MessageHandler() {
     const BotMessage = document.createElement('div')
 
     const message = user_input.value;
+
+    ChatData_Save(message, "user")
+    await memoryData_save(message, "user")
+    
     UserMessage.classList.add('message', 'user')
     UserMessage.textContent = message
     ChatBox.appendChild(UserMessage)
@@ -100,11 +281,13 @@ async function MessageHandler() {
     BotMessage.classList.add('message', 'bot')
     const bot_message = await GetData(message)
     const ParsedData = Parse(bot_message.message)
-    BotMessage.innerHTML = `${ParsedData}`
-    console.log(BotMessage)
-    ChatBox.appendChild(BotMessage)
-    hljs.highlightAll();
     
+    ChatData_Save(bot_message.message, "bot")
+    memoryData_save(bot_message.message, "bot")
+
+    BotMessage.innerHTML = `${ParsedData}`
+    ChatBox.appendChild(BotMessage)
+    highlightNewBlocks()
 }
 
 // Input Functions
@@ -143,6 +326,7 @@ const signIn = document.getElementById('SignIn_button')
 const signUp = document.getElementById('SignUp_button')
 
 // User functions
+const userStatus = false
 function user_options_box() { 
     if(user_box.classList.contains('active')) {
         user_box.classList.remove('active')
@@ -161,12 +345,61 @@ document.addEventListener('click', (event) => {
     }
 })
 
-const baseURL = window.location.origin;
 signIn.addEventListener('click', () => {
-    window.location.href = `${baseURL}/Account.html?mode=signin`;
+    window.location.href = `/Account.html?mode=signin`;
 })
 signUp.addEventListener('click', () => {
-    window.location.href = `${baseURL}/Account.html?mode=signup`;
+    window.location.href = `/Account.html?mode=signup`;
 })
 
+function logEvent(type, message, meta = {}) {
+    fetch(`${API_URL}/log`, {
+        method: "POST",
+        headers: {"content-type": "application/json"},
+        body: JSON.stringify({
+            type,
+            message,
+            meta
+        })
+    })
+}
 
+function highlightNewBlocks() {
+  document.querySelectorAll('pre code').forEach(block => {
+    if (!block.dataset.highlighted) {
+      hljs.highlightElement(block);
+      block.dataset.highlighted = "true";
+    }
+  });
+}
+
+window.addEventListener("DOMContentLoaded", async () => {
+    const ChatHistory = await ChatData_fetch()
+    if(!ChatHistory) {
+        logEvent("error", "chat data fetch failed", {status: "ChatHistory variable unavailable"})
+    }else if(ChatHistory.status == "none") {
+        logEvent("error", "token not found", {status: "token isn't stored in localStorage"})
+    }
+    else if(ChatHistory.status == false) {
+        logEvent("error", "token expired", {status: "403"})
+    }else if(ChatHistory.status == true) {
+        const Data = ChatHistory.data
+        for(chat of Data) {
+            const userMessage = document.createElement('div')
+            const botMessage = document.createElement('div')
+            if(chat.sender == "user") {
+              userMessage.classList.add('message', 'user')
+              userMessage.textContent = chat.text
+              ChatBox.appendChild(userMessage)
+            } else if(chat.sender == "bot") {
+              botMessage.classList.add("message", "bot")
+              const botChat = Parse(chat.text)
+              botMessage.innerHTML = botChat
+              ChatBox.appendChild(botMessage)
+              
+        }
+        }
+        hljs.highlightAll();
+    }
+ 
+})
