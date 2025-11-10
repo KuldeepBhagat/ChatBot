@@ -129,8 +129,8 @@ function ChatData_Save(message, role) {
                       Timestamp: Date.now()
             }]
         })
-        }).then(res => {
-            const data = res.json()
+        }).then(async res => {
+            const data = await res.json()
             return {res, data}
         }        
         ).then(Data => {
@@ -148,12 +148,13 @@ function ChatData_Save(message, role) {
     
 }
 async function memoryData_save(message, role) {
-    const token = localStorage.getItem('userToken');
-    await fetch('mem/memorySave', {
+    try {
+        const token = localStorage.getItem('userToken');
+        await fetch(`${API_URL}/mem/memorySave`, {
         method: "POST",
         headers: {
             "content-type": "application/json",
-            "authorization": `bearer ${token}` 
+            "authorization": `Bearer ${token}` 
         },
         body: JSON.stringify({
             message: [{
@@ -161,12 +162,43 @@ async function memoryData_save(message, role) {
                 text: message
             }]
         })
-    })
+    }).then(async res => {
+            const data = await res.json()
+            return {res, data}
+        }).then(Data => {
+            if(!Data.res.ok) {
+                logEvent("'error", Data.data.error, {route: Data.data.route})
+            }
+        })
+    } catch(err) { 
+        logEvent("error", "failed to store memory", {error: err, at: "line:152"})
+    }
 }
-
 async function summarySave(message) {
-    const token = localStorage.getItem('userToken');
-    await fetch('')
+    try {
+        const token = localStorage.getItem('userToken');
+        await fetch(`${API_URL}/mem/summarySave`, {
+        method: "POST",
+        headers: {
+            "content-type": "application/json",
+            "authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            message: [{
+                text: message
+            }]
+        })
+    }).then( async res => {
+            const data = await res.json()
+            return {res, data}
+        }).then(Data => {
+            if(!Data.res.ok) {
+                logEvent("error", Data.data.error, {route: Data.data.route})
+            }
+        })
+    } catch(err) {
+        logEvent("error", "failed to store summary", {error: err, at: "line:180"})
+    }
 }
 
 async function ChatData_fetch() {
@@ -214,7 +246,6 @@ async function memoryFetch() {
             logEvent("error", data.error, {event: data.event})
         }
         const chat = data.chat
-        
         const format = chat.map(m => ({
             role: m.sender === "bot" ? "assistant" : "user",
             content: m.text
@@ -228,6 +259,9 @@ async function memoryFetch() {
                 throw new Error("summary is empty")
             }
 
+            summarySave(summary.message)
+
+            /*
             const message = [
                 { role: "system",
                   content: `memory summary: ${summary.message}`
@@ -236,11 +270,11 @@ async function memoryFetch() {
                   role: "user",
                   content: lastMessage.content
                 }
-            ]
+            ] */
 
-            return message
+            return "just testing"
         }
-
+        console.log("did not enter if")
         return format
         } catch (err) {
         logEvent("error", "failed to fetch memory", {error: err, at: "line:170"})
@@ -249,7 +283,11 @@ async function memoryFetch() {
 
 async function GetData() {
     try {
-        const message = await memoryFetch()
+        const Message = await memoryFetch()
+        const message = [{
+            role: "user",
+            content: "just testing"
+        }]
         const res = await fetch(`${API_URL}/BotResponse`, {
             method: "POST",
             headers: {

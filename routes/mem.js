@@ -24,7 +24,7 @@ router.post('/memorySave', verifyToken, async (req, res) => {
         await collection.save()
         res.status(200).json({message: "success"})
     } catch (err) {
-        res.status(500).json({error: "internal server error", event: "memorySave"})
+        res.status(500).json({error: "internal server error", route: "memorySave"})
     }
 })
 
@@ -37,6 +37,33 @@ router.post('/memoryFetch', verifyToken, async (req, res) => {
         
     } catch (err) {
         res.status(500).json({error: "internal server error", event: "memory fetch"})
+    }
+})
+
+router.post('/summarySave', verifyToken, async (req, res) => {
+    try {
+        const message = req.body.message
+        const userID = req.user.id
+
+        const collection = await messageSummary.findOne({userID})
+        if(!collection) {
+            console.log("trying to make colleciton")
+            const data = new messageSummary({
+                userID,
+                message
+            })
+            await data.save()
+            console.log("success")
+            return res.status(200).json({message: "new summary saved"})
+        }
+
+        collection.message.push(...message)
+        await collection.save()
+
+        res.status(200).json({message: "summary saved"})
+
+    } catch (err) {
+        res.status(500).json({error: "internal server error", route: "summarySave"})
     }
 })
 
