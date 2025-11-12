@@ -1,9 +1,10 @@
-{"timeStamp":"2025-11-10T14:05:08.761Z","type":"error","message":"bot response: failed","source":"backend"}
-{"timeStamp":"2025-11-10T14:06:43.077Z","type":"error","message":"failed to create chat summary","error":{"message":"Failed to execute 'json' on 'Response': Unexpected end of JSON input"},"at":"line:82","source":"main.js"}
-{"timeStamp":"2025-11-10T14:06:43.078Z","type":"error","message":"failed to fetch memory","error":{},"at":"line:170","source":"main.js"}
-{"timeStamp":"2025-11-10T14:11:53.095Z","type":"error","message":"internal server error","route":"summarySave","source":"main.js"}
-{"timeStamp":"2025-11-10T14:14:42.315Z","type":"error","message":"internal server error","route":"summarySave","source":"main.js"}
-{"timeStamp":"2025-11-10T14:19:58.349Z","type":"error","message":"internal server error","route":"summarySave","source":"main.js"}
-{"timeStamp":"2025-11-10T14:26:17.783Z","type":"error","message":"failed to fetch memory","error":{},"at":"line:170","source":"main.js"}
-{"timeStamp":"2025-11-10T14:30:48.531Z","type":"error","message":"failed to fetch memory","error":{},"at":"line:170","source":"main.js"}
-{"timeStamp":"2025-11-10T14:34:08.622Z","type":"error","message":"failed to fetch memory","error":{},"at":"line:170","source":"main.js"}
+{"timeStamp":"2025-11-12T13:31:54.439Z","type":"error","message":"failed to get bot response","error":"Failed to execute 'json' on 'Response': Unexpected end of JSON input","at":"line:209","source":"main.js"}
+{"timeStamp":"2025-11-12T13:53:51.354Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-12T13:53:51.355Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-12T18:43:29.125Z","type":"error","message":"bot response: failed","source":"backend"}
+{"timeStamp":"2025-11-12T18:43:31.533Z","type":"error","message":"bot response: failed","source":"backend"}
+{"timeStamp":"2025-11-12T18:43:34.159Z","type":"error","message":"bot response: failed","source":"backend"}
+{"timeStamp":"2025-11-12T18:45:28.673Z","type":"error","message":"bot response: failed","source":"backend"}
+{"timeStamp":"2025-11-12T18:45:31.052Z","type":"error","message":"bot response: failed","source":"backend"}
+{"timeStamp":"2025-11-12T18:45:34.554Z","type":"error","message":"bot response: failed","source":"backend"}
+{"timeStamp":"2025-11-12T18:50:48.993Z","type":"error","message":"bot response: failed","source":"backend"}

@@ -104,7 +104,7 @@ async function makeSummary(chat) {
         const data = await res.json()
         return data
     } catch (err) {
-        logEvent("error", "failed to create chat summary", {error: err, at: "line:82" })
+        logEvent("error", "failed to create chat summary", {error: err.message, at: "line:82" })
     }
 }
 
@@ -113,7 +113,7 @@ function ChatData_Save(message, role) {
         const token =  localStorage.getItem('userToken');
         if(!token) {
             logEvent("error", "token doesn't exists", {at: "line:85"});
-            return;
+            
         }
         
         fetch(`${API_URL}/auth/StoreChat`, {
@@ -143,7 +143,7 @@ function ChatData_Save(message, role) {
         })
 
     } catch (err) {
-        logEvent("error", "failed to store chatData", {error: err, at: "line:84"})
+        logEvent("error", "failed to store chatData", {error: err.message, at: "line:84"})
     }
     
 }
@@ -171,7 +171,7 @@ async function memoryData_save(message, role) {
             }
         })
     } catch(err) { 
-        logEvent("error", "failed to store memory", {error: err, at: "line:152"})
+        logEvent("error", "failed to store memory", {error: err.message, at: "line:152"})
     }
 }
 async function summarySave(message) {
@@ -197,7 +197,7 @@ async function summarySave(message) {
             }
         })
     } catch(err) {
-        logEvent("error", "failed to store summary", {error: err, at: "line:180"})
+        logEvent("error", "failed to store summary", {error: err.message, at: "line:180"})
     }
 }
 
@@ -227,14 +227,65 @@ async function ChatData_fetch() {
         return {status: true, data: data.chat}
 
     } catch (err) {
-        logEvent("error", "failed to fetch chatData", {error: err, at: "line:141"})
+        logEvent("error", "failed to fetch chatData", {error: err.message, at: "line:141"})
+    }
+}
+
+async function summaryFetch() {
+    try{
+        const token = localStorage.getItem('userToken')
+        const data = await fetch(`${API_URL}/mem/summaryFetch`, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+                "authorization": `Bearer ${token}`
+            }
+        }).then(async res => {
+                const data = await res.json()
+                return {data, res}
+            }).then(Data => {
+                if(!Data.res.ok) {
+                    logEvent("error", Data.data.error, {route: Data.data.route})
+                    return null;
+                }
+
+                if(!Data.data.exists) {
+                    return false
+                }
+                return Data.data.message
+            })
+
+        return data
+    } catch(err) {
+        logEvent("error", "failed to fetch summary", {error: err.message, at: "line:234"})
+    }
+}
+async function clearMemory() {
+    try {
+        const token = localStorage.getItem('userToken')
+        await fetch(`${API_URL}/mem/clearMemory`, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+                "authorization": `Bearer ${token}`
+            },
+        }).then(async res => {
+            const data = await res.json()
+            return {res, data}
+        }).then(Data => {
+            if(!Data.res.ok) {
+                logEvent("error", Data.data.error, {route: Data.data.route})
+            }
+          })
+    } catch(err) {
+        logEvent("error", "failed to clear memory", {error: err.message,  at: "line:234"})
     }
 }
 
 async function memoryFetch() {
     try {
         const token = localStorage.getItem('userToken')
-        const res = await fetch('/mem/memoryFetch', {
+        const res = await fetch(`${API_URL}/mem/memoryFetch`, {
             method: "POST",
             headers: {
                 "content-type": "application/json",
@@ -243,62 +294,108 @@ async function memoryFetch() {
 
         const data = await res.json()
         if(!res.ok) {
-            logEvent("error", data.error, {event: data.event})
+            logEvent("error", data.error, {route: data.route})
+            throw new Error(data.error || "failed to fetch memory")
         }
         const chat = data.chat
-        const format = chat.map(m => ({
+        const Memoryformat = chat.map(m => ({
             role: m.sender === "bot" ? "assistant" : "user",
             content: m.text
         }))
         
         if(chat.length > 10) {
-            const summary = await makeSummary(format)
-            const lastMessage = chat.at(-1)
+            const summary = await makeSummary(Memoryformat)
             
             if(!summary) {
                 throw new Error("summary is empty")
             }
 
             summarySave(summary.message)
+            clearMemory()
 
-            /*
-            const message = [
-                { role: "system",
-                  content: `memory summary: ${summary.message}`
-                },
-                {
-                  role: "user",
-                  content: lastMessage.content
-                }
-            ] */
-
-            return "just testing"
         }
-        console.log("did not enter if")
-        return format
-        } catch (err) {
-        logEvent("error", "failed to fetch memory", {error: err, at: "line:170"})
+
+        const summary = await summaryFetch()
+
+        if(summary) {
+
+            if(summary.length > 10) {
+            console.log("hit the limit")
+            }
+
+            const Summaryformat = summary.map(m => ({
+            role: "system",
+            content: m.text
+            }))
+
+            const message = [
+                ...Summaryformat,
+                ...Memoryformat
+                ]
+            return message
+        }
+
+        const message = [
+            ...Memoryformat
+        ]
+        return message
+    } catch (err) {
+        logEvent("error", "failed to fetch memory", {error: err.message, at: "line:170"})
     }
 }
 
-async function GetData() {
+function liveEvent(Event = {}) {
+    console.log(Event.message)
+}
+
+async function GetData({maxRetries = 3, baseDelay = 4000}) {
     try {
-        const Message = await memoryFetch()
-        const message = [{
-            role: "user",
-            content: "just testing"
-        }]
-        const res = await fetch(`${API_URL}/BotResponse`, {
-            method: "POST",
-            headers: {
-                "content-type": "application/json"
-            },
-            body: JSON.stringify({message})
-        })
-        const reply = await res.json()
-        return reply
+        
+        function delay(ms) {
+            return new Promise(r => setTimeout(r, ms))
+        }
+
+        const message = await memoryFetch()
+        for(let attempt = 0; attempt < maxRetries; attempt++) {
+            try {
+                
+                if(attempt > 0) liveEvent({message: `retrying(${attempt})`})
+
+                const res = await fetch(`${API_URL}/BotResponse`, {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify({message})
+            })
+
+            if(res.status === 429) {
+                if(attempt === 0) liveEvent({message: "error: rate limit"})
+                    if(attempt > 0) liveEvent({message: "failed"})
+                delay(baseDelay)
+                continue;
+            }
+            if(res.status === 500) {
+                liveEvent({message: "internal server error"})
+                return false
+            }
+            if(!res.ok) {
+                const reply = await res.json()
+                liveEvent({message: "something went wrong"})
+                return false
+            }
+
+            const reply = await res.json()
+            return reply
+
+        } catch(err) {
+            logEvent("error", err, {at: "line:351"})
+            }
+            return false
+        }
     } catch (err) {
-        logEvent("error", "failed to get bot response", {error: err, at: "line:209"})
+        logEvent("error", "failed to get bot response", {error: err.message, at: "line:209"})
+        alert(err.message)
     }
 }
 

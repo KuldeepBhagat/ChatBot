@@ -29,7 +29,7 @@ mongoose.connect(MongoURI)
    .catch(err => console.error("connection error", err))
 
 const client  = new OpenAI({
-    apiKey: process.env.CHATBOT_KEY,
+    apiKey: process.env.BACKUP_KEY,
     baseURL: "https://openrouter.ai/api/v1",    
 })
 
@@ -41,13 +41,13 @@ app.post('/BotResponse', async (req, res) => {
         const messages = req.body.message
     
         const response = await client.chat.completions.create({
-        model: "tngtech/deepseek-r1t2-chimera:free",
+        model: "kwaipilot/kat-coder-pro:free",
         messages
         })
-        res.json({message: `${response.choices[0].message.content}`})
+        res.status(200).json({message: `${response.choices[0].message.content}`})
     } catch (err) {
         logEvent("error", "bot response: failed", {source: "backend"})
-        console.error(err)
+        res.status(err.status || 500).json(err)
     }
     })
 

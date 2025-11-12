@@ -36,7 +36,21 @@ router.post('/memoryFetch', verifyToken, async (req, res) => {
         res.status(200).json({chat: chat.message})
         
     } catch (err) {
-        res.status(500).json({error: "internal server error", event: "memory fetch"})
+        res.status(500).json({error: "internal server error", route: "memoryFetch"})
+    }
+})
+
+router.post('/clearMemory', verifyToken, async (req, res) => {
+    try {
+        const userID = req.user.id
+        const memory = await botMemory.findOne({userID})
+        if(!memory) return res.status(404).json({error: "no memory found to clear", route: "clearMemory"})
+
+        memory.message = memory.message.slice(-1)
+        await memory.save();
+        res.status(200).json({message: "success"})
+    } catch(err) {
+        res.status(500).json({error: "Internal server error", route: "clearMemory"})
     }
 })
 
@@ -47,13 +61,11 @@ router.post('/summarySave', verifyToken, async (req, res) => {
 
         const collection = await messageSummary.findOne({userID})
         if(!collection) {
-            console.log("trying to make colleciton")
             const data = new messageSummary({
                 userID,
                 message
             })
             await data.save()
-            console.log("success")
             return res.status(200).json({message: "new summary saved"})
         }
 
@@ -65,6 +77,18 @@ router.post('/summarySave', verifyToken, async (req, res) => {
     } catch (err) {
         res.status(500).json({error: "internal server error", route: "summarySave"})
     }
+})
+
+router.post('/summaryFetch', verifyToken, async (req, res) => {
+    try{
+        const userID = req.user.id;
+        const summary = await messageSummary.findOne({userID}).lean()
+        if(!summary) return res.status(200).json({exists: false, message: null})
+        res.status(200).json({exists: true, message: summary.message})
+    } catch(err) {
+        res.status(500).json({error: "Internal server error", route: "summaryFetch"})
+    }
+    
 })
 
 export default router;
