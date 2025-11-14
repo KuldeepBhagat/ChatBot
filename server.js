@@ -9,6 +9,7 @@ import mongoose from "mongoose"
 import Account from "./models/UserData.js"
 import AuthRoutes from "./routes/auth.js"
 import MemoryRoutes from "./routes/mem.js"
+import UserRoutes from "./routes/user.js"
 import { logEvent } from "./utils/logger.js"
 
 const _dirname = path.resolve(); 
@@ -21,6 +22,7 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 app.use("/auth", AuthRoutes)
 app.use("/mem", MemoryRoutes)
+app.use("/data", UserRoutes)
 
 const MongoURI = process.env.MONGO_URI
 
@@ -30,7 +32,7 @@ mongoose.connect(MongoURI)
 
 const client  = new OpenAI({
     apiKey: process.env.BACKUP_KEY,
-    baseURL: "https://openrouter.ai/api/v1",    
+    baseURL: "https://openrouter.ai/api/v1",
 })
 
 app.get('/', (req, res) => {

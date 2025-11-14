@@ -399,6 +399,28 @@ async function GetData({maxRetries = 3, baseDelay = 4000}) {
     }
 }
 
+async function FetchUserData() {
+    try {
+        const token = localStorage.getItem('userToken')
+        const res = await fetch("/data/userData", {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+                "authorization": `Bearer ${token}`
+            }
+        })
+
+        const data = await res.json()
+        if(!res.ok) {
+            logEvent("error", data.error, {route: data.route})
+            return false
+        }
+
+        return data
+    } catch(err) {
+        logEvent("error", "failed to get FetchUserData", {error: err, at: "line:402"})
+    }
+}
 async function MessageHandler() {
     const UserMessage = document.createElement('div')
     const BotMessage = document.createElement('div')
@@ -459,26 +481,35 @@ const user_button = document.getElementById('User')
 const user_box = document.getElementById('User_options')
 const signIn = document.getElementById('SignIn_button')
 const signUp = document.getElementById('SignUp_button')
+const userOverlay = document.getElementById('User_options_overlay')
 
 // User functions
-const userStatus = false
-function user_options_box() { 
-    if(user_box.classList.contains('active')) {
-        user_box.classList.remove('active')
-    } else {
+function user_options_box({status, data}) { 
+    
+    if(status) {
+        const Data = data
+        for(chat of Data) {
+            const userMessage = document.createElement('div')
+            const botMessage = document.createElement('div')
+            if(chat.sender === "user") {
+              userMessage.classList.add('message', 'user')
+              userMessage.textContent = chat.text
+              ChatBox.appendChild(userMessage)
+            } else if(chat.sender === "bot") {
+              botMessage.classList.add("message", "bot")
+              const botChat = Parse(chat.text)
+              botMessage.innerHTML = botChat
+              ChatBox.appendChild(botMessage)
+              
+            }
+        }
+        hljs.highlightAll();        
+    }else if(!status) {
+        console.log("enterd false", status)
         user_box.classList.add('active')
+        userOverlay.classList.add('active')
     }
 }
-user_button.addEventListener('click', (e) => {
-    e.stopPropagation()
-    user_options_box()
-})
-
-document.addEventListener('click', (event) => {
-    if(!user_box.contains(event.target)) {
-        user_box.classList.remove('active')
-    }
-})
 
 signIn.addEventListener('click', () => {
     window.location.href = `/Account.html?mode=signin`;
@@ -512,29 +543,11 @@ window.addEventListener("DOMContentLoaded", async () => {
     const ChatHistory = await ChatData_fetch()
     if(!ChatHistory) {
         logEvent("error", "chat data fetch failed", {status: "ChatHistory variable unavailable"})
-    }else if(ChatHistory.status == "none") {
-        logEvent("error", "token not found", {status: "token isn't stored in localStorage"})
+    }else if(ChatHistory.status === "none" || ChatHistory.status === false) {
+        user_options_box({status: false, data: []})
+    }else if(ChatHistory.status === true) {
+        user_options_box({status: true, data: ChatHistory.data})
+        const userData = await FetchUserData()
+        console.log(userData)
     }
-    else if(ChatHistory.status == false) {
-        logEvent("error", "token expired", {status: "403"})
-    }else if(ChatHistory.status == true) {
-        const Data = ChatHistory.data
-        for(chat of Data) {
-            const userMessage = document.createElement('div')
-            const botMessage = document.createElement('div')
-            if(chat.sender == "user") {
-              userMessage.classList.add('message', 'user')
-              userMessage.textContent = chat.text
-              ChatBox.appendChild(userMessage)
-            } else if(chat.sender == "bot") {
-              botMessage.classList.add("message", "bot")
-              const botChat = Parse(chat.text)
-              botMessage.innerHTML = botChat
-              ChatBox.appendChild(botMessage)
-              
-        }
-        }
-        hljs.highlightAll();
-    }
- 
 })

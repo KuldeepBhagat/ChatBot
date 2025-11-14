@@ -1,10 +1,11 @@
-{"timeStamp":"2025-11-12T13:31:54.439Z","type":"error","message":"failed to get bot response","error":"Failed to execute 'json' on 'Response': Unexpected end of JSON input","at":"line:209","source":"main.js"}
-{"timeStamp":"2025-11-12T13:53:51.354Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
-{"timeStamp":"2025-11-12T13:53:51.355Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
-{"timeStamp":"2025-11-12T18:43:29.125Z","type":"error","message":"bot response: failed","source":"backend"}
-{"timeStamp":"2025-11-12T18:43:31.533Z","type":"error","message":"bot response: failed","source":"backend"}
-{"timeStamp":"2025-11-12T18:43:34.159Z","type":"error","message":"bot response: failed","source":"backend"}
-{"timeStamp":"2025-11-12T18:45:28.673Z","type":"error","message":"bot response: failed","source":"backend"}
-{"timeStamp":"2025-11-12T18:45:31.052Z","type":"error","message":"bot response: failed","source":"backend"}
-{"timeStamp":"2025-11-12T18:45:34.554Z","type":"error","message":"bot response: failed","source":"backend"}
-{"timeStamp":"2025-11-12T18:50:48.993Z","type":"error","message":"bot response: failed","source":"backend"}
+{"timeStamp":"2025-11-13T15:17:37.498Z","type":"error","message":"token expired","status":"403","source":"main.js"}
+{"timeStamp":"2025-11-14T14:31:22.978Z","type":"status","message":"sign in: success","source":"server.js"}
+{"timeStamp":"2025-11-14T14:35:15.251Z","type":"status","message":"sign in: success","source":"server.js"}
+{"timeStamp":"2025-11-14T15:04:17.845Z","type":"error","message":"failed to get FetchUserData","error":{},"at":"line:402","source":"main.js"}
+{"timeStamp":"2025-11-14T15:05:49.987Z","type":"error","message":"user not found","route":"userData","source":"main.js"}
+{"timeStamp":"2025-11-14T15:08:22.443Z","type":"error","message":"user not found","route":"userData","source":"main.js"}
+{"timeStamp":"2025-11-14T15:12:37.056Z","type":"error","message":"user not found","route":"userData","source":"main.js"}
+{"timeStamp":"2025-11-14T15:13:08.849Z","type":"error","message":"user not found","route":"userData","source":"main.js"}
+{"timeStamp":"2025-11-14T15:13:41.038Z","type":"error","message":"user not found","route":"userData","source":"main.js"}
+{"timeStamp":"2025-11-14T15:15:07.085Z","type":"error","message":"Internal server error","route":"userData","source":"main.js"}
+{"timeStamp":"2025-11-14T15:16:03.228Z","type":"error","message":"Internal server error","route":"userData","source":"main.js"}

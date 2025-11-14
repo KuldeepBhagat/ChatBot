@@ -130,24 +130,44 @@ body.main_page, html {
 }
 
 /* User Section*/
-.user_options {
-    display: none;
-    right: 50px;
-    top: 30px;
+.user_options_overlay {
+    z-index: 3;
+    background-color: rgba(0, 0, 0, 0.479);
     position: absolute;
+    backdrop-filter: blur(2px);
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+.user_options_overlay.active {
+    display: block;
+}
+
+.user_options {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+
     width: 250px;
     height: 350px;
+
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+
+
     background-color: rgb(75, 75, 75);
     border-radius: 10px;
+    box-shadow: 0px 0px 10px 2px rgba(91, 90, 90, 0.584);
     gap: 10px;
-    color: rgb(103, 244, 146);
+    z-index: 4;
 }
 .user_options.active {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
-.user_options.active button {
+.user_options button {
     display: flex;
     justify-content: center;
     align-self: center;
@@ -161,13 +181,15 @@ body.main_page, html {
     cursor: pointer;
 
 }
-.user_options.active button:hover {
+.user_options button:hover {
     transform: scale(1.1)
 }
-.user_options.active h2 {
+.user_options h2 {
     display: flex;
     justify-content: center;
+    color:  white;
 }
+
 /* Chat Container */
 .chat_container {
     display: flex;
