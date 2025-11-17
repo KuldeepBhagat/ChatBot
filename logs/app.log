@@ -1,11 +1,134 @@
-{"timeStamp":"2025-11-13T15:17:37.498Z","type":"error","message":"token expired","status":"403","source":"main.js"}
-{"timeStamp":"2025-11-14T14:31:22.978Z","type":"status","message":"sign in: success","source":"server.js"}
-{"timeStamp":"2025-11-14T14:35:15.251Z","type":"status","message":"sign in: success","source":"server.js"}
-{"timeStamp":"2025-11-14T15:04:17.845Z","type":"error","message":"failed to get FetchUserData","error":{},"at":"line:402","source":"main.js"}
-{"timeStamp":"2025-11-14T15:05:49.987Z","type":"error","message":"user not found","route":"userData","source":"main.js"}
-{"timeStamp":"2025-11-14T15:08:22.443Z","type":"error","message":"user not found","route":"userData","source":"main.js"}
-{"timeStamp":"2025-11-14T15:12:37.056Z","type":"error","message":"user not found","route":"userData","source":"main.js"}
-{"timeStamp":"2025-11-14T15:13:08.849Z","type":"error","message":"user not found","route":"userData","source":"main.js"}
-{"timeStamp":"2025-11-14T15:13:41.038Z","type":"error","message":"user not found","route":"userData","source":"main.js"}
-{"timeStamp":"2025-11-14T15:15:07.085Z","type":"error","message":"Internal server error","route":"userData","source":"main.js"}
-{"timeStamp":"2025-11-14T15:16:03.228Z","type":"error","message":"Internal server error","route":"userData","source":"main.js"}
+{"timeStamp":"2025-11-17T15:25:08.671Z","type":"error","source":"main.js"}
+{"timeStamp":"2025-11-17T15:27:56.880Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:27:57.284Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T15:27:59.256Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T15:27:59.256Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:30:54.603Z","type":"error","source":"main.js"}
+{"timeStamp":"2025-11-17T15:30:55.217Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T15:30:55.217Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:32:37.653Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:32:38.029Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T15:32:45.755Z","type":"error","source":"main.js"}
+{"timeStamp":"2025-11-17T15:33:34.951Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T15:33:35.032Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:33:39.372Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:33:39.373Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T15:41:18.039Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:41:18.039Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T15:41:53.460Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T15:41:53.461Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:44:24.708Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:44:24.709Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T15:44:43.699Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T15:44:44.024Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:44:56.924Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:44:56.965Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T15:44:58.970Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T15:44:58.972Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:45:00.664Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:45:00.671Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T15:45:02.591Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:45:02.592Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T15:45:05.148Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:45:05.148Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T15:45:07.299Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:45:07.382Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T15:45:09.693Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T15:45:09.694Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:45:12.602Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:45:12.605Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T15:45:15.669Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:45:15.670Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T15:45:18.042Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T15:45:18.043Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:45:33.014Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T15:45:33.146Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:45:38.742Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:45:38.781Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T15:45:41.944Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:45:41.944Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T15:45:46.910Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T15:45:47.050Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:45:58.262Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:45:58.301Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T15:46:02.781Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T15:46:02.782Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:48:19.681Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T15:48:19.965Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T17:17:56.390Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T17:17:56.799Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T17:18:16.748Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T17:18:16.788Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T17:23:59.365Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T17:23:59.655Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T17:27:05.414Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T17:27:05.713Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T17:46:45.189Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T17:46:45.190Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T17:47:06.909Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T17:47:06.950Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T17:47:12.750Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T17:47:12.839Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T17:47:22.400Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T17:47:22.441Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T17:48:10.067Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T17:48:10.107Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T17:48:59.634Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T17:48:59.673Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T17:49:25.121Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T17:49:25.164Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T17:49:32.737Z","type":"error","message":"no session found","at":"line:582","source":"main.js"}
+{"timeStamp":"2025-11-17T17:49:41.580Z","type":"error","message":"no session found","at":"line:582","source":"main.js"}
+{"timeStamp":"2025-11-17T17:49:42.560Z","type":"error","message":"no session found","at":"line:582","source":"main.js"}
+{"timeStamp":"2025-11-17T17:49:58.596Z","type":"status","message":"sign up: success","source":"server.js"}
+{"timeStamp":"2025-11-17T17:49:59.641Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T17:49:59.642Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T17:57:43.397Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T17:57:43.397Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T17:57:50.980Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T17:57:50.983Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T17:57:58.766Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T17:57:58.767Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T17:58:11.875Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T17:58:11.876Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T17:58:43.964Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T17:58:44.012Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T18:00:09.964Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T18:00:10.005Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T18:00:22.400Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T18:00:22.400Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T18:00:50.052Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T18:00:50.093Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T18:02:26.324Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T18:02:26.325Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T18:03:45.536Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T18:03:45.788Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T18:09:19.299Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T18:09:19.299Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T18:10:30.374Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T18:10:30.414Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T18:10:38.436Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T18:10:38.437Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T18:10:57.161Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T18:10:57.161Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T18:11:04.230Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T18:11:04.272Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T18:11:17.615Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T18:11:17.658Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T18:13:46.338Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T18:13:46.339Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T18:19:04.833Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T18:19:05.182Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T18:19:57.479Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T18:19:57.561Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T18:20:26.138Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T18:20:26.178Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T18:22:39.586Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T18:22:39.588Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T18:22:50.742Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T18:22:50.784Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T18:22:53.231Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T18:22:53.232Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T18:23:03.853Z","type":"error","message":"chat data fetch failed","status":"ChatHistory variable unavailable","source":"main.js"}
+{"timeStamp":"2025-11-17T18:23:03.854Z","type":"error","message":"no chat found","route":"FetchChat","source":"main.js"}
+{"timeStamp":"2025-11-17T18:23:06.832Z","type":"error","message":"no session found","at":"line:582","source":"main.js"}

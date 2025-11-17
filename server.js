@@ -7,9 +7,11 @@ import bcrypt from 'bcrypt'
 import jwt from "jsonwebtoken"
 import mongoose from "mongoose"
 import Account from "./models/UserData.js"
+import SessionData from "./models/session.js"
 import AuthRoutes from "./routes/auth.js"
 import MemoryRoutes from "./routes/mem.js"
 import UserRoutes from "./routes/user.js"
+import SessionRoutes from "./routes/ses.js"
 import { logEvent } from "./utils/logger.js"
 
 const _dirname = path.resolve(); 
@@ -23,6 +25,7 @@ app.use(express.json())
 app.use("/auth", AuthRoutes)
 app.use("/mem", MemoryRoutes)
 app.use("/data", UserRoutes)
+app.use("/ses", SessionRoutes)
 
 const MongoURI = process.env.MONGO_URI
 
@@ -31,7 +34,7 @@ mongoose.connect(MongoURI)
    .catch(err => console.error("connection error", err))
 
 const client  = new OpenAI({
-    apiKey: process.env.BACKUP_KEY,
+    apiKey: process.env.CHATBOT_KEY,
     baseURL: "https://openrouter.ai/api/v1",
 })
 
@@ -116,6 +119,14 @@ app.post('/SignUp', async (req, res) => {
             process.env.JWT_SECRET,
             {expiresIn: process.env.JWT_EXPIRES_IN}
         )
+
+        const session = new SessionData({
+            userID: newUser._id,
+            active: null,
+            sessions: []
+        })
+        await session.save()
+
         logEvent("status", "sign up: success", {source: "server.js"})
         res.status(200).json({message: "user created", token})
 

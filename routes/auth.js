@@ -7,11 +7,11 @@ const router = express.Router();
 router.post("/StoreChat", verifyToken, async (req, res) => {
     try {
         const message = req.body.message;
-        const userID = req.user.id;
-        const SavedChat = await chatHistory.findOne({userID})
+        const sessionID = req.body.sessionID
+        const SavedChat = await chatHistory.findOne({sessionID})
         if(!SavedChat) {
             const Chat = new chatHistory({
-            userID,
+            sessionID,
             message,
 
         })
@@ -31,13 +31,28 @@ router.post("/StoreChat", verifyToken, async (req, res) => {
 
 router.post("/FetchChat", verifyToken, async (req, res) => {
     try {
-        const userID = req.user.id;
-        const fetchChat = await chatHistory.findOne({userID}).select("message -_id").lean()
+        const sessionID = req.body.sessionID;
+        const fetchChat = await chatHistory.findOne({sessionID}).select("message -_id").lean()
         if(!fetchChat) return res.status(404).json({error: "no chat found", route: "FetchChat"})
         res.status(200).json({chat: fetchChat.message})
     } catch(err) {
         console.error(err)
         res.status(500).json({error: "internal server error", route: "FetchChat"})    
+    }
+    
+})
+
+router.post("/DeleteChat", verifyToken, async (req, res) => {
+    try {
+        const sessionID = req.body.sessionID;
+        const del = await chatHistory.deleteOne({sessionID})
+        if(del.deletedCount === 0) {
+           return res.status(200).json({message: "no document found"})
+        }
+        res.status(200).json({message: "success"})
+    } catch(err) {
+        console.error(err)
+        res.status(500).json({error: "internal server error", route: "DeleteChat"})    
     }
     
 })

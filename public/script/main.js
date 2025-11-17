@@ -4,7 +4,7 @@ const sidebar = document.getElementById('Sidebar');
 const overaly = document.getElementById('Overlay');
 const main_contet = document.getElementById('Main_content');
 const sidebar_button_rotate = Array.from(document.querySelectorAll('.sidebar_open_btn_img'))
-
+const sessionFade = document.getElementById('userSsession_parent')
 //User Input functions
 const user_input = document.getElementById('UserInput')
 const send_button = document.getElementById('SendButton')
@@ -17,6 +17,7 @@ function Sidebar_functions() {
 
         sidebar.classList.remove('open')
         overaly.classList.remove('active')
+        sessionFade.classList.remove('active')
         main_contet.classList.remove('sidebar_active')
         sidebar_button_rotate.forEach(btn => {
             btn.classList.remove('rotate')
@@ -27,6 +28,7 @@ function Sidebar_functions() {
 
        sidebar.classList.add('open')
        overaly.classList.add('active')
+       sessionFade.classList.add('active')
        main_contet.classList.add('sidebar_active')
        sidebar_button_rotate.forEach(btn => {
             btn.classList.add('rotate')
@@ -111,6 +113,8 @@ async function makeSummary(chat) {
 function ChatData_Save(message, role) {  
     try {
         const token =  localStorage.getItem('userToken');
+        const sessionID = getSessionString("active");
+
         if(!token) {
             logEvent("error", "token doesn't exists", {at: "line:85"});
             
@@ -127,7 +131,8 @@ function ChatData_Save(message, role) {
                       sender: role,
                       text: message,
                       Timestamp: Date.now()
-            }]
+            }],
+            sessionID
         })
         }).then(async res => {
             const data = await res.json()
@@ -150,6 +155,7 @@ function ChatData_Save(message, role) {
 async function memoryData_save(message, role) {
     try {
         const token = localStorage.getItem('userToken');
+        const sessionID = getSessionString('active')
         await fetch(`${API_URL}/mem/memorySave`, {
         method: "POST",
         headers: {
@@ -160,7 +166,8 @@ async function memoryData_save(message, role) {
             message: [{
                 sender: role,
                 text: message
-            }]
+            }],
+            sessionID
         })
     }).then(async res => {
             const data = await res.json()
@@ -177,6 +184,7 @@ async function memoryData_save(message, role) {
 async function summarySave(message) {
     try {
         const token = localStorage.getItem('userToken');
+        const sessionID = getSessionString('active')
         await fetch(`${API_URL}/mem/summarySave`, {
         method: "POST",
         headers: {
@@ -186,7 +194,8 @@ async function summarySave(message) {
         body: JSON.stringify({
             message: [{
                 text: message
-            }]
+            }],
+            sessionID
         })
     }).then( async res => {
             const data = await res.json()
@@ -201,19 +210,67 @@ async function summarySave(message) {
     }
 }
 
+async function makeSession() {
+    try {
+        const token = localStorage.getItem('userToken')
+        await fetch(`${API_URL}/ses/newSession`, {
+            method: "POST",
+            headers: {
+            "content-type": "application/json",
+            "authorization": `Bearer ${token}`
+            }
+        }).then(async res => {
+            const data = await res.json();
+            return {data, res}
+        }).then(Data => {
+            if(!Data.res.ok) {
+                logEvent("error", Data.data.error, {route: Data.data.route})
+            }
+        })
+    } catch(err) {
+        logEvent("error", "failed to make session", {error: err, at: "line:211"})
+    }
+} 
+
+async function sessionFetch() {
+    try {
+        const token = localStorage.getItem('userToken')
+        const res = await fetch(`${API_URL}/ses/fetchSession`, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+                "authorization": `Bearer ${token}`
+            }
+        })
+
+        const data = await res.json()
+        if(!res.ok) {
+            logEvent("error", data.error, {route: data.route})
+        }
+        
+        return data
+        
+    } catch(err) {
+        logEvent("error", "failed to fetch session", {error: err.message, at: "line:208"})
+    }
+}
+
 async function ChatData_fetch() {
     try {
         const token =  localStorage.getItem('userToken');
+        const sessionID = getSessionString('active')
         if(!token) {
             return {status: "none"};
         }
-    
+
         const res = await fetch(`${API_URL}/auth/FetchChat`, {
             method: "POST",
             headers: {
             "content-type": "application/json",
             "authorization": `Bearer ${token}`
-            },})
+            },
+            body: JSON.stringify({sessionID})
+        })
 
         const data = await res.json()
 
@@ -234,12 +291,14 @@ async function ChatData_fetch() {
 async function summaryFetch() {
     try{
         const token = localStorage.getItem('userToken')
+        const sessionID = getSessionString('active')
         const data = await fetch(`${API_URL}/mem/summaryFetch`, {
             method: "POST",
             headers: {
                 "content-type": "application/json",
                 "authorization": `Bearer ${token}`
-            }
+            },
+            body: JSON.stringify({sessionID})
         }).then(async res => {
                 const data = await res.json()
                 return {data, res}
@@ -263,12 +322,15 @@ async function summaryFetch() {
 async function clearMemory() {
     try {
         const token = localStorage.getItem('userToken')
+        const sessionID = getSessionString('active')
+
         await fetch(`${API_URL}/mem/clearMemory`, {
             method: "POST",
             headers: {
                 "content-type": "application/json",
                 "authorization": `Bearer ${token}`
             },
+            body: JSON.stringify({sessionID})
         }).then(async res => {
             const data = await res.json()
             return {res, data}
@@ -285,12 +347,16 @@ async function clearMemory() {
 async function memoryFetch() {
     try {
         const token = localStorage.getItem('userToken')
+        const sessionID = getSessionString('active')
+
         const res = await fetch(`${API_URL}/mem/memoryFetch`, {
             method: "POST",
             headers: {
                 "content-type": "application/json",
                 "authorization": `Bearer ${token}`
-            }})
+            },
+            body: JSON.stringify({sessionID})
+        })
 
         const data = await res.json()
         if(!res.ok) {
@@ -402,7 +468,8 @@ async function GetData({maxRetries = 3, baseDelay = 4000}) {
 async function FetchUserData() {
     try {
         const token = localStorage.getItem('userToken')
-        const res = await fetch("/data/userData", {
+        
+        const res = await fetch(`${API_URL}/data/userData`, {
             method: "POST",
             headers: {
                 "content-type": "application/json",
@@ -477,11 +544,12 @@ user_input.addEventListener('keydown', function(event) {
 })
 
 //User Options
-const user_button = document.getElementById('User')
+const user_account_logo = document.getElementById('User')
 const user_box = document.getElementById('User_options')
 const signIn = document.getElementById('SignIn_button')
 const signUp = document.getElementById('SignUp_button')
 const userOverlay = document.getElementById('User_options_overlay')
+const profile_container = document.getElementById('Profile')
 
 // User functions
 function user_options_box({status, data}) { 
@@ -517,6 +585,221 @@ signIn.addEventListener('click', () => {
 signUp.addEventListener('click', () => {
     window.location.href = `/Account.html?mode=signup`;
 })
+user_account_logo.addEventListener('click', (e) => {
+    e.stopPropagation()
+    profile_container.classList.toggle('show')
+})
+document.addEventListener('click', (e) => {
+    if(!profile_container.contains(e.target)) {
+        profile_container.classList.remove('show')
+    }
+})
+
+function setupProfile(userData) {
+    const {firstName, lastName, email} = userData
+    const logo = firstName.charAt(0).toUpperCase()
+
+    const logo_container = document.createElement('div')
+    logo_container.classList.add('profile_picture')
+    logo_container.innerHTML = `<h1>${logo}</h1>`
+
+    const mail_container = document.createElement('div')
+    mail_container.classList.add('user_mail')
+    mail_container.innerHTML = `<h5>${email}</h5>`
+
+    const logout_container = document.createElement('div')
+    logout_container.classList.add('log_out')
+    logout_container.innerHTML = `<h2>Hello, ${firstName}!</h2>`
+
+    const button = document.createElement('button')
+    button.classList.add('logout_button')
+    button.innerHTML = `<img 
+                src="https://img.icons8.com/?size=100&id=vcvBMGD6n6ZL&format=png&color=000000"
+                alt="logout">
+                Logout`
+    button.addEventListener('click', () => {
+        localStorage.removeItem('userToken')
+        localStorage.removeItem('userSession')
+        location.reload()
+    })
+
+    logout_container.appendChild(button)
+
+    profile_container.append(logo_container, mail_container, logout_container)
+}
+
+
+// Session functions
+const sessionContainer = document.getElementById('UserSession')
+const newSessionButton = document.getElementById('NewSessionButton')
+
+function sessionContainerFill() {
+    const session = getSessionString(('sessions'))
+    const active = getSessionString('active')
+    session.forEach((value, index) => {
+        
+        const div = document.createElement('div')
+        div.classList.add('session_options_container')
+
+        const opt_button = document.createElement('button')
+        opt_button.classList.add('session_buttons_options')
+        opt_button.textContent = "⋮"
+
+        const session_opt_window = document.createElement('div')
+        session_opt_window.classList.add('session_buttons_options_window', 'hidden')
+
+        const dlt_button = document.createElement('button')
+        dlt_button.innerHTML = `<img src="https://img.icons8.com/?size=100&id=102350&format=png&color=000000"
+                                    alt="delete">
+                                    Delete`
+
+        session_opt_window.appendChild(dlt_button)
+
+        const button = document.createElement('button')
+        button.textContent = `session ${index + 1}`
+        button.dataset.id = value
+        button.classList.add('session_buttons')
+        if(value === active) {
+            button.classList.add('active')
+        }
+
+        button.addEventListener('click', async () => {
+            await switchSession(button.dataset.id)
+            location.reload()
+        })
+
+        opt_button.addEventListener('click', (e) => {
+
+            e.stopPropagation()
+
+            document.querySelectorAll('.session_buttons_options_window').forEach((c) => {
+                if(!c.classList.contains('hidden')) c.classList.add('hidden') 
+            })
+
+            session_opt_window.classList.toggle('hidden')
+        })
+
+        dlt_button.addEventListener('click', async () => {
+            await deleteSession(value)
+            location.reload()
+        })
+
+        div.appendChild(button)
+        div.appendChild(opt_button)
+        div.appendChild(session_opt_window)
+        sessionContainer.appendChild(div)
+
+    })
+}
+
+document.addEventListener('click', (e) => {
+    document.querySelectorAll('.session_buttons_options_window').forEach((c) => {
+                c.classList.add('hidden') 
+            })
+    
+})
+
+async function switchSession(id) {
+    try {
+        const token = localStorage.getItem(('userToken'))
+        await fetch(`${API_URL}/ses/switchSession`, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+                "authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({id})
+        }).then(async res => {
+            const data = res.json()
+            return {data, res}
+        }).then(Data => {
+            if(!Data.res.ok) {
+                logEvent("error", Data.data.error, {route: Data.data.route})
+                return false
+            }
+        })
+    } catch(err) {
+        logEvent("error", "failed to switch session", {error: err, at: "line:605"})
+    }
+}
+
+async function deleteSession(id) {
+    try {
+        const token = localStorage.getItem('userToken')
+
+        await fetch(`${API_URL}/ses/DeleteSession`, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+                "authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({id})
+        }).then(async res => {
+            const data = res.json()
+            return {data, res}
+        }).then(Data => {
+            if(!Data.res.ok) {
+                logEvent("error", Data.data.error, {route: Data.data.route})
+                return false
+            }
+        })
+
+        await fetch(`${API_URL}/auth/DeleteChat`, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+                "authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({sessionID: id})
+        }).then(async res => {
+            const data = res.json()
+            return {data, res}
+        }).then(Data => {
+            if(!Data.res.ok) {
+                logEvent("error", Data.data.error, {route: Data.data.route})
+                return false
+            }
+        })
+
+        await fetch(`${API_URL}/mem/DeleteMemory`, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+                "authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({sessionID: id})
+        }).then(async res => {
+            const data = res.json()
+            return {data, res}
+        }).then(Data => {
+            if(!Data.res.ok) {
+                logEvent("error", Data.data.error, {route: Data.data.route})
+                return false
+            }
+        })
+
+    } catch(err) {
+        logEvent("error", "failed to delete session", {error: err, at: "line:672"})
+    }
+}
+
+function getSessionString(field) {
+    try {
+        const sessionString = localStorage.getItem('userSession')
+        const sessionData = JSON.parse(sessionString)
+        return sessionData[field]
+    } catch(err) {
+        logEvent("error", "no session found", {at: "line:582"})
+    }
+}
+
+newSessionButton.addEventListener('click', async () => {
+    await makeSession()
+    const session = await sessionFetch()
+    localStorage.setItem('userSession', JSON.stringify(session))
+    location.reload()
+})
+
 
 function logEvent(type, message, meta = {}) {
     fetch(`${API_URL}/log`, {
@@ -540,6 +823,15 @@ function highlightNewBlocks() {
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
+    const token = localStorage.getItem('userToken')
+    if(token) {
+        const session = await sessionFetch()
+        localStorage.setItem("userSession", JSON.stringify(session))
+        sessionContainerFill()
+
+        const userData = await FetchUserData()
+        setupProfile(userData)
+    }
     const ChatHistory = await ChatData_fetch()
     if(!ChatHistory) {
         logEvent("error", "chat data fetch failed", {status: "ChatHistory variable unavailable"})
@@ -547,7 +839,5 @@ window.addEventListener("DOMContentLoaded", async () => {
         user_options_box({status: false, data: []})
     }else if(ChatHistory.status === true) {
         user_options_box({status: true, data: ChatHistory.data})
-        const userData = await FetchUserData()
-        console.log(userData)
     }
 })

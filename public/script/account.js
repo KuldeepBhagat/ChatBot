@@ -35,7 +35,27 @@ SignUp_option.addEventListener('click', () => {
     signUp.style.display = "flex"
 })
 
-
+async function handleSession() {
+    try {
+        const token = localStorage.getItem('userToken')
+        await fetch(`${API_URL}/ses/newSession`, {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json",
+                    "authorization": `Bearer ${token}`
+                }
+            }).then(async res => {
+                const data = await res.json();
+                return (res, data)
+            }).then(Data => {
+                if(!Data.res.ok) {
+                    logEvent("error", Data.data.error, {event: "Account.js" ,route: Data.data.route})
+                }
+            })
+    } catch(err) {
+        logEvent("error", "session creation failed", {event: "account.js", error: err})
+    }
+} 
 function RequestHandle(res, data) {
 
     if(AlertMessage.classList.contains('active')) {
@@ -47,7 +67,7 @@ function RequestHandle(res, data) {
             AlertMessage.innerHTML = data.message
             AlertMessage.classList.add('active')
             localStorage.setItem("userToken", data.token)
-            console.log(data.token)
+            handleSession();
             window.location.href = "/index.html"
         }
 }
@@ -60,17 +80,17 @@ signUp.addEventListener('submit', async (e) => {
     const body = Object.fromEntries(data.entries())
     
     try {
-        fetch(`${API_URL}/SignUp`, {
-        method: "POST",
-        headers: {"content-type": "application/json"},
-        body: JSON.stringify(body)
-    }).then(async (res) => {
-        const data = await res.json()
-        RequestHandle(res, data)
-    })
+        await fetch(`${API_URL}/SignUp`, {
+            method: "POST",
+            headers: {"content-type": "application/json"},
+            body: JSON.stringify(body)
+        }).then(async (res) => {
+            const data = await res.json()
+            RequestHandle(res, data)
+        })
     } 
     catch (err) {
-        console.error(err)
+        logEvent("error", "failed to create user", {event: "account.js", error: err})
     }
 })
 
@@ -94,6 +114,18 @@ signIn.addEventListener('submit', async (e) => {
             RequestHandle(res, data)
         })
     } catch (err) {
-        console.error(err)
+        logEvent("error", "failed to sign in", {event: "account.js", error: err})
     }
 })
+
+function logEvent(type, message, meta = {}) {
+    fetch(`${API_URL}/log`, {
+        method: "POST",
+        headers: {"content-type": "application/json"},
+        body: JSON.stringify({
+            type,
+            message,
+            meta
+        })
+    })
+}

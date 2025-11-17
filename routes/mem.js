@@ -7,13 +7,13 @@ const router = express.Router()
 
 router.post('/memorySave', verifyToken, async (req, res) => {
     try {
-        const userID = req.user.id
+        const sessionID = req.body.sessionID
         const message = req.body.message
 
-        const collection = await botMemory.findOne({userID})
+        const collection = await botMemory.findOne({sessionID})
         if(!collection) {
             const data = new botMemory({
-                userID,
+                sessionID,
                 message
             })
             await data.save()
@@ -30,8 +30,8 @@ router.post('/memorySave', verifyToken, async (req, res) => {
 
 router.post('/memoryFetch', verifyToken, async (req, res) => {
     try {
-        const userID = req.user.id
-        const chat = await botMemory.findOne({userID}).select("message -_id").lean()
+        const sessionID = req.body.sessionID
+        const chat = await botMemory.findOne({sessionID}).select("message -_id").lean()
         if(!chat) return res.status(404).json({error: "no chat found", route: "memoryFetch"})
         res.status(200).json({chat: chat.message})
         
@@ -42,8 +42,8 @@ router.post('/memoryFetch', verifyToken, async (req, res) => {
 
 router.post('/clearMemory', verifyToken, async (req, res) => {
     try {
-        const userID = req.user.id
-        const memory = await botMemory.findOne({userID})
+        const sessionID = req.body.sessionID
+        const memory = await botMemory.findOne({sessionID})
         if(!memory) return res.status(404).json({error: "no memory found to clear", route: "clearMemory"})
 
         memory.message = memory.message.slice(-1)
@@ -57,12 +57,12 @@ router.post('/clearMemory', verifyToken, async (req, res) => {
 router.post('/summarySave', verifyToken, async (req, res) => {
     try {
         const message = req.body.message
-        const userID = req.user.id
+        const sessionID = req.body.sessionID
 
-        const collection = await messageSummary.findOne({userID})
+        const collection = await messageSummary.findOne({sessionID})
         if(!collection) {
             const data = new messageSummary({
-                userID,
+                sessionID,
                 message
             })
             await data.save()
@@ -81,12 +81,29 @@ router.post('/summarySave', verifyToken, async (req, res) => {
 
 router.post('/summaryFetch', verifyToken, async (req, res) => {
     try{
-        const userID = req.user.id;
-        const summary = await messageSummary.findOne({userID}).lean()
+        const sessionID = req.body.sessionID
+        const summary = await messageSummary.findOne({sessionID}).lean()
         if(!summary) return res.status(200).json({exists: false, message: null})
         res.status(200).json({exists: true, message: summary.message})
     } catch(err) {
         res.status(500).json({error: "Internal server error", route: "summaryFetch"})
+    }
+    
+})
+
+router.post("/DeleteMemory", verifyToken, async (req, res) => {
+    try {
+        const sessionID = req.body.sessionID;
+        const del_one = await botMemory.deleteOne({sessionID})
+        const del_two = await messageSummary.deleteOne({sessionID})
+
+        if(del_two.deletedCount === 0 || del_one.deletedCount === 0) {
+           return res.status(200).json({message: "no document found"})
+        }
+        res.status(200).json({message: "success"})
+    } catch(err) {
+        console.error(err)
+        res.status(500).json({error: "internal server error", route: "DeleteMemory"})    
     }
     
 })
